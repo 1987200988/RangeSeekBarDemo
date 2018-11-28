@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.content.res.TypedArray;
+import android.databinding.BindingAdapter;
+import android.databinding.ObservableList;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -28,6 +29,10 @@ public class RangeProgressBar extends View {
     private int outsideBorderWidth;
     private Paint paintOutside;
     private Paint paintScale;
+
+    private ObservableList progressTimeData;
+    private ObservableList timeData;
+
     //8 140 272 404 536 668 800
 
     public RangeProgressBar(Context context) {
@@ -83,13 +88,16 @@ public class RangeProgressBar extends View {
 
     }
 
-    public void setLineShape(List<String> list, LineParameter... lineParameters) {
-        lineParameterList.clear();
-        listTime.clear();
-        listTime.addAll(list);
-        for (LineParameter lineParameter : lineParameters) {
-            lineParameterList.add(lineParameter);
+    public void setLineShape(List<String> list, List<LineParameter> lineParameters) {
+        if(lineParameters!=null){
+            lineParameterList.clear();
+            lineParameterList.addAll(lineParameters);
         }
+        if(list!=null){
+            listTime.clear();
+            listTime.addAll(list);
+        }
+
         invalidate();
     }
 
@@ -97,18 +105,19 @@ public class RangeProgressBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (lineParameterList.size() == 0) {
-            return;
-        }
+
         startPoint = 28;
         //        画进度条
-        for (int i = 0; i < lineParameterList.size(); i++) {
-            paint.setColor(lineParameterList.get(i).color);
-            canvas.drawRect(startPoint, startTop, lineParameterList.get(i).length * lineWidth + startPoint,
-                    lineHeight + startTop,
-                    paint);
-            startPoint = startPoint + lineParameterList.get(i).length * lineWidth;
+        if(lineParameterList!=null){
+            for (int i = 0; i < lineParameterList.size(); i++) {
+                paint.setColor(lineParameterList.get(i).color);
+                canvas.drawRect(startPoint, startTop, lineParameterList.get(i).length * lineWidth + startPoint,
+                        lineHeight + startTop,
+                        paint);
+                startPoint = startPoint + lineParameterList.get(i).length * lineWidth;
+            }
         }
+
         //矩形线条颜色不一致
         //canvas.drawRect(0,0,outsideBorderWidth,outsideBorderHeight,paintOutside);
         //        画外边框
@@ -127,13 +136,16 @@ public class RangeProgressBar extends View {
         canvas.drawLine(820, 50, 820, 54, paintScale);
 
         //        写时间text
-        canvas.drawText(listTime.get(0), 5, 68, paintScale);
-        canvas.drawText(listTime.get(1), 136, 68, paintScale);
-        canvas.drawText(listTime.get(2), 268, 68, paintScale);
-        canvas.drawText(listTime.get(3), 400, 68, paintScale);
-        canvas.drawText(listTime.get(4), 532, 68, paintScale);
-        canvas.drawText(listTime.get(5), 664, 68, paintScale);
-        canvas.drawText(listTime.get(6), 796, 68, paintScale);
+        if(listTime!=null){
+            canvas.drawText(listTime.get(0), 5, 68, paintScale);
+            canvas.drawText(listTime.get(1), 136, 68, paintScale);
+            canvas.drawText(listTime.get(2), 268, 68, paintScale);
+            canvas.drawText(listTime.get(3), 400, 68, paintScale);
+            canvas.drawText(listTime.get(4), 532, 68, paintScale);
+            canvas.drawText(listTime.get(5), 664, 68, paintScale);
+            canvas.drawText(listTime.get(6), 796, 68, paintScale);
+        }
+
 
     }
 
@@ -169,6 +181,52 @@ public class RangeProgressBar extends View {
         System.out.println("Width size:" + size);
         System.out.println("Width mode:" + mode);
         return result;
+    }
+
+    @BindingAdapter({"progressTimeData"})
+    public static void setData(RangeProgressBar rangeProgressBar, ObservableList<LineParameter> progressTimeData) {
+        if (progressTimeData == null) {
+            Log.e("abcd", "setData: null" );
+            return;
+        }
+
+        Log.e("abcd", "setData: " );
+        rangeProgressBar.setProgressTimeData(progressTimeData);
+    }
+
+    public void setProgressTimeData(ObservableList progressTimeData) {
+        this.progressTimeData = progressTimeData;
+
+        setLineShape(null,progressTimeData);
+
+
+    }
+
+    public ObservableList getProgressTimeData() {
+        return progressTimeData;
+    }
+
+
+    @BindingAdapter({"timeData"})
+    public static void setTimeData(RangeProgressBar rangeProgressBar, ObservableList<String> listTime) {
+        if (listTime == null) {
+            Log.e("abcd", "setData: null" );
+            return;
+        }
+
+        Log.e("abcd", "setData: " );
+        rangeProgressBar.setTimeData(listTime);
+    }
+
+    public void setTimeData(ObservableList timeData) {
+        this.timeData = timeData;
+        setLineShape(timeData,null);
+
+
+    }
+
+    public ObservableList getTimeData() {
+        return timeData;
     }
 
 }
