@@ -136,7 +136,7 @@ public class RangeProgressBar extends View {
         canvas.drawLine(820, 50, 820, 54, paintScale);
 
         //        写时间text
-        if(listTime!=null){
+        if(listTime!=null&&listTime.size()!=0){
             canvas.drawText(listTime.get(0), 5, 68, paintScale);
             canvas.drawText(listTime.get(1), 136, 68, paintScale);
             canvas.drawText(listTime.get(2), 268, 68, paintScale);

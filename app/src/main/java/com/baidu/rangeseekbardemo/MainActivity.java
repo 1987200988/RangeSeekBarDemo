@@ -23,34 +23,39 @@ public class MainActivity extends AppCompatActivity {
     private LineParameter lineParameter3;
     private TextView textView;
     private List<String> listTime = new ArrayList<>();
-    private ObservableArrayList<LineParameter> list;
-    private ObservableArrayList<String> time;
+    private ObservableArrayList<LineParameter> list = new ObservableArrayList<>();
+    private ObservableArrayList<String> time = new ObservableArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         //        setContentView(R.layout.activity_main);
 
-        lineParameter = new LineParameter();
-        lineParameter1 = new LineParameter();
-        lineParameter2 = new LineParameter();
-        lineParameter3 = new LineParameter();
-        lineParameter.length = 0.2f;
-        lineParameter.color = Color.GRAY;
-        lineParameter1.length = 0.1f;
-        lineParameter1.color = Color.BLUE;
-        lineParameter2.length = 0.4f;
-        lineParameter2.color = Color.BLACK;
-        lineParameter3.length = 0.3f;
-        lineParameter3.color = Color.YELLOW;
-        list = new ObservableArrayList<LineParameter>();
-        list.add(lineParameter);
-        list.add(lineParameter1);
-        list.add(lineParameter2);
-        list.add(lineParameter3);
+        //        模拟数据接口返回的时间数据
+        TestData testData = new TestData();
+        testData.startTime = TimeProgressUtil.getStringToDate("2018-11-28 8:10:00", TimeProgressUtil.patt);
+        testData.endTime = TimeProgressUtil.getStringToDate("2018-11-28 8:50:00", TimeProgressUtil.patt);
+        TestData testData1 = new TestData();
+        testData1.startTime = TimeProgressUtil.getStringToDate("2018-11-28 9:10:00", TimeProgressUtil.patt);
+        testData1.endTime = TimeProgressUtil.getStringToDate("2018-11-28 9:50:00", TimeProgressUtil.patt);
+        TestData testData2 = new TestData();
+        testData2.startTime = TimeProgressUtil.getStringToDate("2018-11-28 9:55:00", TimeProgressUtil.patt);
+        testData2.endTime = TimeProgressUtil.getStringToDate("2018-11-28 10:00:00", TimeProgressUtil.patt);
+        TestData testData3 = new TestData();
+        testData3.startTime = TimeProgressUtil.getStringToDate("2018-11-28 11:10:00", TimeProgressUtil.patt);
+        testData3.endTime = TimeProgressUtil.getStringToDate("2018-11-28 11:30:00", TimeProgressUtil.patt);
 
-        time = new ObservableArrayList<>();
+        List listTest = new ArrayList<TestData>();
+        listTest.add(testData);
+        listTest.add(testData1);
+        listTest.add(testData2);
+        listTest.add(testData3);
+        //        模拟数据接口返回的时间数据
+
+
+
         time.add("18:30:10");
         time.add("19:30:10");
         time.add("20:30:10");
@@ -58,9 +63,15 @@ public class MainActivity extends AppCompatActivity {
         time.add("11:30:10");
         time.add("10:30:10");
         time.add("10:30:10");
+        //
 
+        List dataConversion = TimeProgressUtil.dataConversion(listTest);
 
-        activityMainBinding.setMyData(list);
+        //                判断总进度是否为1 测试时候用的方法
+        getTotalProgress(dataConversion);
+
+        this.list.addAll(dataConversion);
+        activityMainBinding.setMyData(this.list);
         activityMainBinding.setData(time);
 
         findViewById(R.id.bt1).setOnClickListener(new View.OnClickListener() {
@@ -74,24 +85,35 @@ public class MainActivity extends AppCompatActivity {
                 time.add("20:00:04");
                 time.add("20:00:05");
                 time.add("20:00:06");
-                lineParameter = new LineParameter();
-                lineParameter1 = new LineParameter();
-                lineParameter2 = new LineParameter();
-                lineParameter3 = new LineParameter();
-                lineParameter.length = 0.2f;
-                lineParameter.color = Color.BLACK;
-                lineParameter1.length = 0.1f;
-                lineParameter1.color = Color.GRAY;
-                lineParameter2.length = 0.4f;
-                lineParameter2.color = Color.GREEN;
-                lineParameter3.length = 0.3f;
-                lineParameter3.color = Color.YELLOW;
+                //        模拟数据接口返回的时间数据
+                TestData testData = new TestData();
+                testData.startTime = TimeProgressUtil.getStringToDate("2018-11-28 8:50:00", TimeProgressUtil.patt);
+                testData.endTime = TimeProgressUtil.getStringToDate("2018-11-28 8:55:00", TimeProgressUtil.patt);
+                TestData testData1 = new TestData();
+                testData1.startTime = TimeProgressUtil.getStringToDate("2018-11-28 9:30:00", TimeProgressUtil.patt);
+                testData1.endTime = TimeProgressUtil.getStringToDate("2018-11-28 9:50:00", TimeProgressUtil.patt);
+                TestData testData2 = new TestData();
+                testData2.startTime = TimeProgressUtil.getStringToDate("2018-11-28 9:55:00", TimeProgressUtil.patt);
+                testData2.endTime = TimeProgressUtil.getStringToDate("2018-11-28 10:30:00", TimeProgressUtil.patt);
+                TestData testData3 = new TestData();
+                testData3.startTime = TimeProgressUtil.getStringToDate("2018-11-28 11:10:00", TimeProgressUtil.patt);
+                testData3.endTime = TimeProgressUtil.getStringToDate("2018-11-28 12:00:00", TimeProgressUtil.patt);
 
-                list.clear();
-                list.add(lineParameter);
-                list.add(lineParameter1);
-                list.add(lineParameter2);
-                list.add(lineParameter3);
+                List listTest = new ArrayList<TestData>();
+                listTest.add(testData);
+                listTest.add(testData1);
+                listTest.add(testData2);
+                listTest.add(testData3);
+
+                //        模拟数据接口返回的时间数据
+
+
+
+                List<LineParameter> test = TimeProgressUtil.dataConversion(listTest);
+                //                判断总进度是否为1 测试时候用的方法
+                getTotalProgress(test);
+                MainActivity.this.list.clear();
+                MainActivity.this.list.addAll(test);
 
             }
         });
@@ -107,23 +129,35 @@ public class MainActivity extends AppCompatActivity {
                 time.add("10:00:04");
                 time.add("10:00:05");
                 time.add("10:00:06");
-                lineParameter = new LineParameter();
-                lineParameter1 = new LineParameter();
-                lineParameter2 = new LineParameter();
-                lineParameter3 = new LineParameter();
-                lineParameter.length = 0.1f;
-                lineParameter.color = Color.BLUE;
-                lineParameter1.length = 0.3f;
-                lineParameter1.color = Color.GRAY;
-                lineParameter2.length = 0.2f;
-                lineParameter2.color = Color.BLACK;
-                lineParameter3.length = 0.4f;
-                lineParameter3.color = Color.GREEN;
-                list.clear();
-                list.add(lineParameter);
-                list.add(lineParameter1);
-                list.add(lineParameter2);
-                list.add(lineParameter3);
+                //        模拟数据接口返回的时间数据
+                TestData testData = new TestData();
+                testData.startTime = TimeProgressUtil.getStringToDate("2018-11-28 8:00:00", TimeProgressUtil.patt);
+                testData.endTime = TimeProgressUtil.getStringToDate("2018-11-28 8:55:00", TimeProgressUtil.patt);
+                TestData testData1 = new TestData();
+                testData1.startTime = TimeProgressUtil.getStringToDate("2018-11-28 9:30:00", TimeProgressUtil.patt);
+                testData1.endTime = TimeProgressUtil.getStringToDate("2018-11-28 9:50:00", TimeProgressUtil.patt);
+                TestData testData2 = new TestData();
+                testData2.startTime = TimeProgressUtil.getStringToDate("2018-11-28 9:55:00", TimeProgressUtil.patt);
+                testData2.endTime = TimeProgressUtil.getStringToDate("2018-11-28 10:30:00", TimeProgressUtil.patt);
+                TestData testData3 = new TestData();
+                testData3.startTime = TimeProgressUtil.getStringToDate("2018-11-28 11:10:00", TimeProgressUtil.patt);
+                testData3.endTime = TimeProgressUtil.getStringToDate("2018-11-28 12:00:00", TimeProgressUtil.patt);
+
+                List listTest = new ArrayList<TestData>();
+                listTest.add(testData);
+                listTest.add(testData1);
+                listTest.add(testData2);
+                listTest.add(testData3);
+
+                //        模拟数据接口返回的时间数据
+
+
+
+                List<LineParameter> test = TimeProgressUtil.dataConversion(listTest);
+                //                判断总进度是否为1 测试时候用的方法
+                getTotalProgress(test);
+                MainActivity.this.list.clear();
+                MainActivity.this.list.addAll(test);
             }
         });
 
@@ -138,89 +172,52 @@ public class MainActivity extends AppCompatActivity {
                 time.add("20:50:04");
                 time.add("20:30:05");
                 time.add("20:40:06");
-                lineParameter = new LineParameter();
-                lineParameter1 = new LineParameter();
-                lineParameter2 = new LineParameter();
-                lineParameter3 = new LineParameter();
-                lineParameter.length = 0.1f;
-                lineParameter.color = Color.YELLOW;
-                lineParameter1.length = 0.2f;
-                lineParameter1.color = Color.GRAY;
-                lineParameter2.length = 0.3f;
-                lineParameter2.color = Color.BLACK;
-                lineParameter3.length = 0.4f;
-                lineParameter3.color = Color.GREEN;
-                list.clear();
-                list.add(lineParameter);
-                list.add(lineParameter1);
-                list.add(lineParameter2);
-                list.add(lineParameter3);
+                //        模拟数据接口返回的时间数据
+                TestData testData = new TestData();
+                testData.startTime = TimeProgressUtil.getStringToDate("2018-11-28 8:00:00", TimeProgressUtil.patt);
+                testData.endTime = TimeProgressUtil.getStringToDate("2018-11-28 8:55:00", TimeProgressUtil.patt);
+                TestData testData1 = new TestData();
+                testData1.startTime = TimeProgressUtil.getStringToDate("2018-11-28 9:30:00", TimeProgressUtil.patt);
+                testData1.endTime = TimeProgressUtil.getStringToDate("2018-11-28 9:50:00", TimeProgressUtil.patt);
+                TestData testData2 = new TestData();
+                testData2.startTime = TimeProgressUtil.getStringToDate("2018-11-28 9:55:00", TimeProgressUtil.patt);
+                testData2.endTime = TimeProgressUtil.getStringToDate("2018-11-28 10:30:00", TimeProgressUtil.patt);
+                TestData testData3 = new TestData();
+                testData3.startTime = TimeProgressUtil.getStringToDate("2018-11-28 11:50:00", TimeProgressUtil.patt);
+                testData3.endTime = TimeProgressUtil.getStringToDate("2018-11-28 12:00:00", TimeProgressUtil.patt);
+
+                List listTest = new ArrayList<TestData>();
+                listTest.add(testData);
+                listTest.add(testData1);
+                listTest.add(testData2);
+                listTest.add(testData3);
+
+
+
+                //        模拟数据接口返回的时间数据
+                List<LineParameter> test = TimeProgressUtil.dataConversion(listTest);
+                //                判断总进度是否为1 测试时候用的方法
+                getTotalProgress(test);
+                MainActivity.this.list.clear();
+                MainActivity.this.list.addAll(test);
             }
         });
 
-        //        rangeProgressBar.setOnRangeChangedListener(new RangeSeekBar.OnRangeChangedListener() {
-        //            @Override
-        //            public void onRangeChanged(RangeSeekBar view, float min, float max) {
-        //                textView.setText("min="+min+"max="+max);
-        //                if (min > 0.1 && max > 0.5) {
-        //                    lineParameter = new LineParameter();
-        //                    lineParameter1 = new LineParameter();
-        //                    lineParameter2 = new LineParameter();
-        //                    lineParameter3 = new LineParameter();
-        //                    lineParameter.length = 0.1f;
-        //                    lineParameter.color = Color.BLUE;
-        //                    lineParameter1.length = 0.2f;
-        //                    lineParameter1.color = Color.GRAY;
-        //                    lineParameter2.length = 0.3f;
-        //                    lineParameter2.color = Color.BLACK;
-        //                    lineParameter3.length = 0.4f;
-        //                    lineParameter3.color = Color.YELLOW;
-        //                }else if(min==0&&max==0){
-        //                    lineParameter = new LineParameter();
-        //                    lineParameter1 = new LineParameter();
-        //                    lineParameter2 = new LineParameter();
-        //                    lineParameter3 = new LineParameter();
-        //                    lineParameter.length = 0.5f;
-        //                    lineParameter.color = Color.BLACK;
-        //                    lineParameter1.length = 0.2f;
-        //                    lineParameter1.color = Color.BLACK;
-        //                    lineParameter2.length = 0.2f;
-        //                    lineParameter2.color = Color.BLACK;
-        //                    lineParameter3.length = 0.1f;
-        //                    lineParameter3.color = Color.BLACK;
-        //
-        //                }else if(min==0&&max>0.1&&max<0.3){
-        //                    lineParameter = new LineParameter();
-        //                    lineParameter1 = new LineParameter();
-        //                    lineParameter2 = new LineParameter();
-        //                    lineParameter3 = new LineParameter();
-        //                    lineParameter.length = 0.3f;
-        //                    lineParameter.color = Color.GRAY;
-        //                    lineParameter1.length = 0.2f;
-        //                    lineParameter1.color = Color.BLUE;
-        //                    lineParameter2.length = 0.1f;
-        //                    lineParameter2.color = Color.BLACK;
-        //                    lineParameter3.length = 0.4f;
-        //                    lineParameter3.color = Color.BLACK;
-        //                }else {
-        //                    lineParameter = new LineParameter();
-        //                    lineParameter1 = new LineParameter();
-        //                    lineParameter2 = new LineParameter();
-        //                    lineParameter3 = new LineParameter();
-        //                    lineParameter.length = 0.6f;
-        //                    lineParameter.color = Color.YELLOW;
-        //                    lineParameter1.length = 0.3f;
-        //                    lineParameter1.color = Color.BLUE;
-        //                    lineParameter2.length = 0.05f;
-        //                    lineParameter2.color = Color.BLACK;
-        //                    lineParameter3.length = 0.05f;
-        //                    lineParameter3.color = Color.YELLOW;
-        //                }
-        //
-        //                rangeProgressBar.setLineShape(lineParameter, lineParameter1, lineParameter2, lineParameter3);
-        //
-        //            }
-        //        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    public void getTotalProgress(List<LineParameter> dataConversion) {
+        float a = 0;
+        for (int i = 0; i < dataConversion.size(); i++) {
+            Log.e("abcd", "onCreate: " + dataConversion.get(i).length);
+            a = a + dataConversion.get(i).length;
+        }
+        Log.e("abcd", "a======: " + a);
 
     }
 
