@@ -1,5 +1,6 @@
 package com.baidu.rangeseekbardemo;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class TimeProgressUtil {
         Log.e(TAG, "dataConversion: " + l);
 
         for (int i = 0; i < list.size(); i++) {
+            Log.e("aaaaaaaa", "dataConversion: startTime==="+list.get(i).startTime+"endTime==="+list.get(i).endTime );
             if (i == 0) {
                 long startTime = list.get(i).startTime;
                 if (startTime == startTotal) {
@@ -41,23 +43,37 @@ public class TimeProgressUtil {
                     lineParameter.length = l2;
                     Log.e(TAG, "dataConversion: " + l2);
                     lineList.add(lineParameter);
+
+                    if(list.size()==1){
+                        LineParameter lineParameter2 = new LineParameter();
+                        lineParameter2.color = Color.GRAY;
+                        lineParameter2.length = 1-lineParameter.length ;
+                        Log.e(TAG, "dataConversion: " + l2);
+                        lineList.add(lineParameter2);
+                    }
                 } else {
                     LineParameter lineParameter = new LineParameter();
                     lineParameter.color = Color.GRAY;
                     long l1 = list.get(i).startTime - startTotal;
                     float l2 = l1 / l;
                     lineParameter.length = l2;
-                    Log.e(TAG, "dataConversion: " + l2);
-
+                    Log.e(TAG, "dataConversion: " + l2+"l1===="+l1);
                     lineList.add(lineParameter);
-
                     LineParameter lineParameter2 = new LineParameter();
                     lineParameter2.color = Color.YELLOW;
                     long l12 = list.get(i).endTime - list.get(i).startTime;
                     float l22 = l12 / l;
                     lineParameter2.length = l22;
-                    Log.e(TAG, "dataConversion: " + l22);
+                    Log.e(TAG, "dataConversion: " + l22+"l12===="+l12);
                     lineList.add(lineParameter2);
+                    if(list.size()==1){
+                        LineParameter lineParameter3 = new LineParameter();
+                        lineParameter3.color = Color.GRAY;
+                        lineParameter3.length = 1-lineParameter.length - lineParameter2.length;
+                        Log.e(TAG, "dataConversion: " + l2);
+
+                        lineList.add(lineParameter3);
+                    }
                 }
             } else {
                 if (i != list.size() - 1) {
@@ -144,6 +160,7 @@ public class TimeProgressUtil {
     public static long getStringToDate(String dateString, String pattern) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         Date date = new Date();
+
         try {
             date = dateFormat.parse(dateString);
         } catch (ParseException e) {

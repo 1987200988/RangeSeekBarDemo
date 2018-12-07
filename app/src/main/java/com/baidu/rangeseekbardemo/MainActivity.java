@@ -35,23 +35,24 @@ public class MainActivity extends AppCompatActivity {
 
         //        模拟数据接口返回的时间数据
         TestData testData = new TestData();
-        testData.startTime = TimeProgressUtil.getStringToDate("2018-11-28 8:10:00", TimeProgressUtil.patt);
+        testData.startTime = TimeProgressUtil.getStringToDate("2018-11-28 8:00:00", TimeProgressUtil.patt);
         testData.endTime = TimeProgressUtil.getStringToDate("2018-11-28 8:50:00", TimeProgressUtil.patt);
-        TestData testData1 = new TestData();
-        testData1.startTime = TimeProgressUtil.getStringToDate("2018-11-28 9:10:00", TimeProgressUtil.patt);
-        testData1.endTime = TimeProgressUtil.getStringToDate("2018-11-28 9:50:00", TimeProgressUtil.patt);
-        TestData testData2 = new TestData();
-        testData2.startTime = TimeProgressUtil.getStringToDate("2018-11-28 9:55:00", TimeProgressUtil.patt);
-        testData2.endTime = TimeProgressUtil.getStringToDate("2018-11-28 10:00:00", TimeProgressUtil.patt);
-        TestData testData3 = new TestData();
-        testData3.startTime = TimeProgressUtil.getStringToDate("2018-11-28 11:10:00", TimeProgressUtil.patt);
-        testData3.endTime = TimeProgressUtil.getStringToDate("2018-11-28 11:30:00", TimeProgressUtil.patt);
+        Log.e("abcd", "onCreate: startTime==="+testData.startTime+"endTime==="+testData.endTime );
+//        TestData testData1 = new TestData();
+//        testData1.startTime = TimeProgressUtil.getStringToDate("2018-11-28 9:10:00", TimeProgressUtil.patt);
+//        testData1.endTime = TimeProgressUtil.getStringToDate("2018-11-28 9:50:00", TimeProgressUtil.patt);
+//        TestData testData2 = new TestData();
+//        testData2.startTime = TimeProgressUtil.getStringToDate("2018-11-28 9:55:00", TimeProgressUtil.patt);
+//        testData2.endTime = TimeProgressUtil.getStringToDate("2018-11-28 10:00:00", TimeProgressUtil.patt);
+//        TestData testData3 = new TestData();
+//        testData3.startTime = TimeProgressUtil.getStringToDate("2018-11-28 11:10:00", TimeProgressUtil.patt);
+//        testData3.endTime = TimeProgressUtil.getStringToDate("2018-11-28 11:30:00", TimeProgressUtil.patt);
 
         List listTest = new ArrayList<TestData>();
         listTest.add(testData);
-        listTest.add(testData1);
-        listTest.add(testData2);
-        listTest.add(testData3);
+//        listTest.add(testData1);
+//        listTest.add(testData2);
+//        listTest.add(testData3);
         //        模拟数据接口返回的时间数据
 
 
